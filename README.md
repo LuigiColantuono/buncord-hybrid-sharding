@@ -1,3 +1,7 @@
+[![PayPal](https://img.shields.io/badge/💖-Support-ff69b4)](https://paypal.me/l0g4n7)
+[![npm](https://img.shields.io/npm/v/buncord-hybrid-sharding?style=flat-square)](https://www.npmjs.com/package/buncord-hybrid-sharding)
+![Github Stars](https://img.shields.io/github/stars/LuigiColantuono/buncord-hybrid-sharding?style=flat-square)
+
 <p align="center">
 <img width="400" height="211" alt="buncord hybrid sharding logo" src="https://github.com/user-attachments/assets/12a46f1a-3901-4682-b9a9-b5f75768c607" />
 </p>
