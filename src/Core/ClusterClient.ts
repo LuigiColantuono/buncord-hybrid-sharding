@@ -69,11 +69,12 @@ export class ClusterClient<DiscordClient = DjsDiscordClient> extends EventEmitte
 
     private async _startHeartbeat() {
         const redis = new (await import("../Util/RedisClient.js")).RedisClient();
+        await redis.connect().catch(() => {});
         const interval = Number(this.info.HEARTBEAT_INTERVAL || 10000);
         
         setInterval(async () => {
             if (this.ready) {
-                await redis.set(`hb:cluster:${this.id}`, Date.now().toString(), interval * 2);
+                await redis.set(`hb:cluster:${this.id}`, Date.now().toString(), Math.floor(interval * 2.5 / 1000)).catch(() => {});
             }
         }, interval);
     }

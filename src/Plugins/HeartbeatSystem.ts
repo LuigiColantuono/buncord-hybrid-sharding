@@ -27,21 +27,26 @@ export class HeartbeatManager {
         this.start();
     }
 
-    public start() {
+    public async start() {
+        await this.redis.connect().catch(() => {});
         this.checkInterval = setInterval(() => this.checkClusters(), this.options.interval);
         this.manager?._debug("[Heartbeat] Redis-backed monitoring started");
     }
 
     private async checkClusters() {
         if (!this.manager) return;
-        for (const [id, cluster] of this.manager.clusters) {
-            if (!cluster.thread) continue;
-            
-            const lastHeartbeat = await this.redis.get(`hb:cluster:${id}`);
-            if (!lastHeartbeat && cluster.ready) {
-                this.manager._debug(`[Heartbeat] Cluster ${id} missed heartbeat, respawning...`);
-                cluster.respawn();
+        try {
+            for (const [id, cluster] of this.manager.clusters) {
+                if (!cluster.thread) continue;
+                
+                const lastHeartbeat = await this.redis.get(`hb:cluster:${id}`);
+                if (!lastHeartbeat && cluster.ready) {
+                    this.manager._debug(`[Heartbeat] Cluster ${id} missed heartbeat, respawning...`);
+                    cluster.respawn();
+                }
             }
+        } catch (error) {
+            this.manager._debug(`[Heartbeat] Error checking clusters: ${(error as Error).message}`);
         }
     }
 
