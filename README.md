@@ -1,17 +1,21 @@
-# ⚡ Buncord-Hybrid-Sharding
+<p align="center">
+<img width="400" height="211" alt="buncord hybrid sharding logo" src="https://github.com/user-attachments/assets/12a46f1a-3901-4682-b9a9-b5f75768c607" />
+</p>
+
+# Buncord-Hybrid-Sharding
 
 The ultimate **Enterprise Bun-native** sharding manager for Discord bots. Built for performance, reliability, and scale.
 
 `buncord-hybrid-sharding` is a ground-up refactor of the hybrid sharding concept, optimized specifically for the Bun runtime. It eliminates all Node.js dependencies, leveraging `Bun.spawn` and native Bun IPC for ultra-fast, low-overhead clustering.
 
-## 🚀 Key Features
+##  Key Features
 
-- **🔋 Bun-Native Core**: Zero Node.js dependencies. Uses `Bun.spawn` and native IPC for maximum performance.
-- **🔄 Zero-Downtime Rolling Restarts**: Built-in `ReClusterManager` for updating your bot with zero service interruption.
-- **💓 Redis-Backed Heartbeats**: Distributed health monitoring using Redis. If a cluster hangs, it's detected and restarted automatically via TTL.
-- **📊 Integrated Dashboard API**: Built-in monitoring server (port 3001) using `Bun.serve` to track cluster health and trigger administrative actions.
-- **🚦 QueueManager Plugin**: Advanced control over cluster spawning to respect Discord's rate limits precisely.
-- **📉 Resource Efficiency**: Hybrid sharding (multiple shards per process) reduces memory overhead by 40-60%.
+- **Bun-Native Core**: Zero Node.js dependencies. Uses `Bun.spawn` and native IPC for maximum performance.
+- **Zero-Downtime Rolling Restarts**: Built-in `ReClusterManager` for updating your bot with zero service interruption.
+- **Redis-Backed Heartbeats**: Distributed health monitoring using Redis. If a cluster hangs, it's detected and restarted automatically via TTL.
+- **Integrated Dashboard API**: Built-in monitoring server (port 3001) using `Bun.serve` to track cluster health and trigger administrative actions.
+- **QueueManager Plugin**: Advanced control over cluster spawning to respect Discord's rate limits precisely.
+- **Resource Efficiency**: Hybrid sharding (multiple shards per process) reduces memory overhead by 40-60%.
 
 ---
 
