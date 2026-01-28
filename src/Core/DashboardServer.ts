@@ -1,4 +1,4 @@
-import { ClusterManager } from "./ClusterManager.js";
+import type { ClusterManager } from "./ClusterManager.ts";
 
 export interface DashboardOptions {
     port?: number;
@@ -58,7 +58,7 @@ export class DashboardServer {
                     if (enable) {
                         this.manager.triggerMaintenance(reason);
                     } else {
-                        // @ts-ignore
+                        // @ts-expect-error - legacy compatibility
                         this.manager.triggerMaintenance();
                     }
                     return new Response(`Maintenance ${enable ? 'enabled' : 'disabled'}`);

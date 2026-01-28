@@ -1,14 +1,17 @@
 import EventEmitter from "node:events";
 
-import { ChildClient } from "../Structures/Child.js";
-import { getInfo } from "../Structures/Data.js";
-import { ClusterClientHandler } from "../Structures/IPCHandler.js";
-import { BaseMessage, IPCMessage, RawMessage } from "../Structures/IPCMessage.js";
-import { PromiseHandler } from "../Structures/PromiseHandler.js";
-import {
-	Awaitable, ClusterClientEvents, DjsDiscordClient, evalOptions, Events, messageType, Serialized
-} from "../types/shared.js";
-import { generateNonce } from "../Util/Util.js";
+import { ChildClient } from "../Structures/Child.ts";
+import { getInfo } from "../Structures/Data.ts";
+import { ClusterClientHandler } from "../Structures/IPCHandler.ts";
+import type { RawMessage } from "../Structures/IPCMessage.ts";
+import { BaseMessage, IPCMessage } from "../Structures/IPCMessage.ts";
+import { PromiseHandler } from "../Structures/PromiseHandler.ts";
+import type {
+	Awaitable, ClusterClientEvents, DjsDiscordClient, evalOptions, Serialized
+} from "../types/shared.ts";
+import { Events, messageType
+} from "../types/shared.ts";
+import { generateNonce } from "../Util/Util.ts";
 
 /**
  * communicates between the master and the cluster process
@@ -17,7 +20,7 @@ export class ClusterClient<DiscordClient = DjsDiscordClient> extends EventEmitte
     client: DiscordClient;
     shardList: number[];
     queue: { mode: 'auto' | string | undefined };
-    maintenance: string | undefined | Boolean;
+    maintenance: string | undefined | boolean;
     ready: boolean;
     process: ChildClient | null;
     messageHandler: any;
@@ -68,7 +71,7 @@ export class ClusterClient<DiscordClient = DjsDiscordClient> extends EventEmitte
     }
 
     private async _startHeartbeat() {
-        const redis = new (await import("../Util/RedisClient.js")).RedisClient();
+        const redis = new (await import("../Util/RedisClient.ts")).RedisClient();
         await redis.connect().catch(() => {});
         const interval = Number(this.info.HEARTBEAT_INTERVAL || 10000);
         
@@ -213,16 +216,16 @@ export class ClusterClient<DiscordClient = DjsDiscordClient> extends EventEmitte
     }
 
     public async _eval(script: string) {
-        // @ts-ignore
+        // @ts-expect-error - legacy compatibility
         if (this.client._eval) {
-            // @ts-ignore
+            // @ts-expect-error - legacy compatibility
             return await this.client._eval(script);
         }
-        // @ts-ignore
+        // @ts-expect-error - legacy compatibility
         this.client._eval = function (_: string) {
-            return eval(_); // eslint-disable-line no-eval
+            return eval(_);  
         }.bind(this.client);
-        // @ts-ignore
+        // @ts-expect-error - legacy compatibility
         return await this.client._eval(script);
     }
 
@@ -239,7 +242,7 @@ export class ClusterClient<DiscordClient = DjsDiscordClient> extends EventEmitte
              * @event Client#error
              * @param {Error} error The error encountered
              */
-            // @ts-ignore
+            // @ts-expect-error - legacy compatibility
             this.client.emit?.(Events.ERROR, error);
         });
     }

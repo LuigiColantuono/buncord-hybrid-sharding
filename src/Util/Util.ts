@@ -1,4 +1,4 @@
-import { DefaultOptions, Endpoints } from "../types/shared.js";
+import { DefaultOptions, Endpoints } from "../types/shared.ts";
 
 export function generateNonce() {
     return Date.now().toString(36) + Math.random().toString(36);

@@ -1,5 +1,5 @@
-import { ClusterManager } from '../Core/ClusterManager.js';
-import { RedisClient } from '../Util/RedisClient.js';
+import type { ClusterManager } from '../Core/ClusterManager.ts';
+import { RedisClient } from '../Util/RedisClient.ts';
 
 export interface HeartbeatOptions {
     interval?: number;
@@ -22,7 +22,6 @@ export class HeartbeatManager {
 
     public build(manager: ClusterManager) {
         this.manager = manager;
-        // @ts-ignore
         this.manager.heartbeat = this;
         this.start();
     }

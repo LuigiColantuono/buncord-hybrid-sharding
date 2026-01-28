@@ -1,7 +1,7 @@
-import { generateNonce } from '../Util/Util.js';
-import { messageType } from '../types/shared.js';
-import { ClusterClient } from '../Core/ClusterClient.js';
-import { Cluster } from '../Core/Cluster.js';
+import { generateNonce } from '../Util/Util.ts';
+import { messageType } from '../types/shared.ts';
+import type { ClusterClient } from '../Core/ClusterClient.ts';
+import type { Cluster } from '../Core/Cluster.ts';
 
 export interface RawMessage {
     nonce?: string;
@@ -21,13 +21,13 @@ export class BaseMessage {
         message.nonce = this.nonce;
 
         /**
-         * Destructs the Message Object and initializes it on the Constructor
+         * Destructs the Message Record<string, unknown> and initializes it on the Constructor
          */
         this._raw = this.destructMessage(message);
     }
 
     /**
-     * Destructs the Message Object and initializes it on the Constructor
+     * Destructs the Message Record<string, unknown> and initializes it on the Constructor
      */
     private destructMessage(message: RawMessage) {
         for (const [key, value] of Object.entries(message)) {
@@ -63,8 +63,8 @@ export class IPCMessage extends BaseMessage {
     /**
      * Sends a message to the cluster's process/worker or to the ParentCluster.
      */
-    public async send(message: object) {
-        if (typeof message !== 'object') throw new TypeError('The Message has to be a object');
+    public async send(message: Record<string, unknown>) {
+        if (typeof message !== 'object') throw new TypeError('The Message has to be an object');
         const baseMessage = new BaseMessage({ ...message, _type: messageType.CUSTOM_MESSAGE });
         return this.instance.send(baseMessage.toJSON());
     }
@@ -72,8 +72,8 @@ export class IPCMessage extends BaseMessage {
     /**
      * Sends a Request to the cluster's process/worker or to the ParentCluster.
      */
-    public async request(message: object) {
-        if (typeof message !== 'object') throw new TypeError('The Message has to be a object');
+    public async request(message: Record<string, unknown>) {
+        if (typeof message !== 'object') throw new TypeError('The Message has to be an object');
         const baseMessage = new BaseMessage({ ...message, _type: messageType.CUSTOM_REQUEST, nonce: this.nonce });
         return this.instance.request(baseMessage.toJSON());
     }
@@ -81,8 +81,8 @@ export class IPCMessage extends BaseMessage {
     /**
      * Sends a Reply to Message from the cluster's process/worker or the ParentCluster.
      */
-    public async reply(message: object) {
-        if (typeof message !== 'object') throw new TypeError('The Message has to be a object');
+    public async reply(message: Record<string, unknown>) {
+        if (typeof message !== 'object') throw new TypeError('The Message has to be an object');
         const baseMessage = new BaseMessage({
             ...message,
             _type: messageType.CUSTOM_REPLY,

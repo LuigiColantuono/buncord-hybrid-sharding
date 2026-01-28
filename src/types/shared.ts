@@ -1,11 +1,11 @@
 // Removed node:child_process import
-import { Client } from "discord.js";
+import type { Client } from "discord.js";
 
-import { Cluster } from "../Core/Cluster.js";
-import { ClusterClient } from "../Core/ClusterClient.js";
-import { ClusterManager } from "../Core/ClusterManager.js";
-import { ChildProcessOptions } from "../Structures/Child.js";
-import { BaseMessage, IPCMessage } from "../Structures/IPCMessage.js";
+import type { Cluster } from "../Core/Cluster.ts";
+import type { ClusterClient } from "../Core/ClusterClient.ts";
+import type { ClusterManager } from "../Core/ClusterManager.ts";
+import type { ChildProcessOptions } from "../Structures/Child.ts";
+import type { BaseMessage, IPCMessage } from "../Structures/IPCMessage.ts";
 
 export const Events = {
     ERROR: 'warn',
@@ -49,7 +49,7 @@ export enum messageType {
     'CLIENT_AUTORESHARDER_SENDDATA',
 }
 
-export interface evalOptions<T = object> {
+export interface evalOptions<T = Record<string, unknown>> {
     cluster?: number | number[];
     shard?: number;
     guildId?: string;
@@ -69,7 +69,7 @@ export type Serialized<T> = T extends symbol | bigint | (() => any)
         : T extends ReadonlyArray<infer V>
           ? Serialized<V>[]
           : T extends ReadonlyMap<unknown, unknown> | ReadonlySet<unknown>
-            ? {}
+            ? Record<string, never>
             : { [K in keyof T]: Serialized<T[K]> };
 
 export interface ClusterSpawnOptions {
@@ -109,7 +109,7 @@ export interface ClusterManagerOptions {
     /** Options to pass to the spawn,respawn method */
     spawnOptions?: ClusterManagerSpawnOptions;
     /** Data, which is passed to the Cluster */
-    clusterData?: object;
+    clusterData?: Record<string, unknown>;
     /** @deprecated keepAlive is not supported anymore on and above v1.6.0. Import it as plugin ("HeartbeatManager") */
     keepAlive?: boolean;
     /** Options, which is passed when forking a child or creating a thread */

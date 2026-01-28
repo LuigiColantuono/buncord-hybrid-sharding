@@ -1,7 +1,8 @@
+import type { ClusterClient, ClusterManager, DjsDiscordClient} from "../index.ts";
 import {
-	arraysAreTheSame, ClusterClient, ClusterManager, DjsDiscordClient, fetchRecommendedShards,
+	arraysAreTheSame, fetchRecommendedShards,
 	messageType
-} from "../index.js";
+} from "../index.ts";
 
 export interface AutoResharderSendData {
     clusterId: number;
@@ -257,7 +258,7 @@ export class AutoResharderManager {
         };
     }
     build(manager: ClusterManager) {
-        // @ts-ignore
+        // @ts-expect-error - legacy compatibility
         manager[this.name] = this;
         this.manager = manager;
 

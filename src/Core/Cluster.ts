@@ -1,12 +1,14 @@
 import EventEmitter from "node:events";
 import path from "node:path";
 
-import { Child } from "../Structures/Child.js";
-import { ClusterHandler } from "../Structures/IPCHandler.js";
-import { BaseMessage, IPCMessage, RawMessage } from "../Structures/IPCMessage.js";
-import { ClusterEvents, ClusterKillOptions, DjsDiscordClient, messageType } from "../types/shared.js"; // eslint-disable-line @typescript-eslint/no-unused-vars
-import { delayFor, generateNonce } from "../Util/Util.js";
-import { ClusterManager } from "./ClusterManager.js";
+import { Child } from "../Structures/Child.ts";
+import { ClusterHandler } from "../Structures/IPCHandler.ts";
+import type { RawMessage } from "../Structures/IPCMessage.ts";
+import { BaseMessage, IPCMessage } from "../Structures/IPCMessage.ts";
+import type { ClusterEvents, ClusterKillOptions} from "../types/shared.ts";
+import { DjsDiscordClient, messageType } from "../types/shared.ts"; // eslint-disable-line @typescript-eslint/no-unused-vars
+import { delayFor, generateNonce } from "../Util/Util.ts";
+import type { ClusterManager } from "./ClusterManager.ts";
 
 /**
  * A self-contained cluster created by the {@link ClusterManager}. Each one has a {@link DjsDiscordClient} that contains

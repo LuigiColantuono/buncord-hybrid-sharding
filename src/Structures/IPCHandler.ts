@@ -1,11 +1,11 @@
-import { Cluster } from '../Core/Cluster.js';
-import { ClusterClient } from '../Core/ClusterClient.js';
-import { ClusterManager } from '../Core/ClusterManager.js';
-import { messageType } from '../types/shared.js';
-import { makePlainError } from '../Util/Util.js';
-import { Child, ChildClient } from './Child.js';
-import { RawMessage } from './IPCMessage.js';
-import { ResolveMessage } from './PromiseHandler.js';
+import type { Cluster } from '../Core/Cluster.ts';
+import type { ClusterClient } from '../Core/ClusterClient.ts';
+import type { ClusterManager } from '../Core/ClusterManager.ts';
+import { messageType } from '../types/shared.ts';
+import { makePlainError } from '../Util/Util.ts';
+import type { Child, ChildClient } from './Child.ts';
+import type { RawMessage } from './IPCMessage.ts';
+import type { ResolveMessage } from './PromiseHandler.ts';
 
 export class ClusterHandler {
     manager: ClusterManager;
@@ -17,7 +17,7 @@ export class ClusterHandler {
         this.ipc = ipc;
     }
 
-    handleMessage(message: RawMessage) {
+    handleMessage(message: RawMessage & { _eval?: string; options?: any; maintenance?: string }) {
         if (message._type === messageType.CLIENT_READY) {
             this.cluster.ready = true;
             this.cluster.emit('ready');
@@ -26,7 +26,7 @@ export class ClusterHandler {
         }
         if (message._type === messageType.CLIENT_BROADCAST_REQUEST) {
             this.cluster.manager
-                .broadcastEval(message._eval, message.options)
+                .broadcastEval(message._eval!, message.options)
                 ?.then(results => {
                     return this.ipc.send({
                         nonce: message.nonce,
@@ -44,7 +44,7 @@ export class ClusterHandler {
             return;
         }
         if (message._type === messageType.CLIENT_MANAGER_EVAL_REQUEST) {
-            this.cluster.manager.evalOnManager(message._eval).then(result => {
+            this.cluster.manager.evalOnManager(message._eval!).then(result => {
                 if (result._error) {
                     return this.ipc.send({
                         nonce: message.nonce,
@@ -77,7 +77,7 @@ export class ClusterHandler {
             return;
         }
         if (message._type === messageType.CLIENT_MAINTENANCE_ALL) {
-            this.cluster.manager.triggerMaintenance(message.maintenance);
+            this.cluster.manager.triggerMaintenance(message.maintenance ?? '');
             return;
         }
         if (message._type === messageType.CLIENT_SPAWN_NEXT_CLUSTER) {
@@ -104,7 +104,7 @@ export class ClusterClientHandler<DiscordClient> {
         this.ipc = ipc;
     }
 
-    public async handleMessage(message: ResolveMessage & { date?: number; maintenance?: string }) {
+    public async handleMessage(message: ResolveMessage & { _eval?: string; options?: any; date?: number; maintenance?: string }) {
         if (message._type === messageType.CLIENT_EVAL_REQUEST) {
             try {
                 if (!message._eval) throw new Error('Eval Script not provided');

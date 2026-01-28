@@ -1,4 +1,4 @@
-import type { Cluster } from '../Core/Cluster';
+import type { Cluster } from '../Core/Cluster.ts';
 
 export class ClusterManagerHooks {
     constructor() {}

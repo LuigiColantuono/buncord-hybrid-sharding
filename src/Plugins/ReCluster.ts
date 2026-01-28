@@ -1,6 +1,5 @@
-import { Cluster } from "../Core/Cluster.js";
-import { ClusterManager } from "../Core/ClusterManager.js";
-import { chunkArray, fetchRecommendedShards } from "../Util/Util.js";
+import type { ClusterManager } from "../Core/ClusterManager.ts";
+import { chunkArray, fetchRecommendedShards } from "../Util/Util.ts";
 
 export type ReClusterRestartMode = 'rolling';
 
@@ -24,7 +23,6 @@ export class ReClusterManager {
     }
 
     build(manager: ClusterManager) {
-        // @ts-ignore
         manager.recluster = this;
         this.manager = manager;
         return this;

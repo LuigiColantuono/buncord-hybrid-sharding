@@ -1,3 +1,5 @@
+import type { Subprocess } from "bun";
+
 export interface ChildProcessOptions {
     clusterData: Record<string, any> | undefined;
     args?: string[] | undefined;
@@ -7,7 +9,7 @@ export interface ChildProcessOptions {
 
 export class Child {
     file: string;
-    process: import("bun").Subprocess | null;
+    process: Subprocess | null;
     options: ChildProcessOptions;
     args: string[];
 
@@ -40,7 +42,7 @@ export class Child {
             ipc: (message) => {
                 this._onMessage(message);
             },
-            onExit: (proc, exitCode, signalCode) => {
+            onExit: (_proc, exitCode, _signalCode) => {
                 this._onExit(exitCode ?? 0);
             }
         });

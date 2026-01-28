@@ -1,5 +1,5 @@
-import { ClusterManager } from "../Core/ClusterManager.js";
-import { Plugin } from "../types/shared.js";
+import type { ClusterManager } from "../Core/ClusterManager.ts";
+import type { Plugin } from "../types/shared.ts";
 
 export interface QueueManagerOptions {
     maxParallelSpawns?: number;
@@ -18,7 +18,7 @@ export class QueueManager implements Plugin {
 
     public build(manager: ClusterManager) {
         this.manager = manager;
-        // @ts-ignore
+        // @ts-expect-error - legacy compatibility
         this.manager.queueManager = this;
         this.manager._debug("[QueueManager] Plugin initialized");
     }

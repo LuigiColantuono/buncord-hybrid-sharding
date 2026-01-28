@@ -1,5 +1,5 @@
-import { generateNonce } from '../Util/Util.js';
-import { RawMessage } from './IPCMessage.js';
+import { generateNonce } from '../Util/Util.ts';
+import type { RawMessage } from './IPCMessage.ts';
 
 export interface StoredPromise {
     resolve(value: any): void;

@@ -3,22 +3,22 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { AutoResharderManager } from "../Plugins/AutoResharderSystem.js";
-import { HeartbeatManager } from "../Plugins/HeartbeatSystem.js";
-import { ReClusterManager } from "../Plugins/ReCluster.js";
-import { ChildProcessOptions } from "../Structures/Child.js";
-import { BaseMessage } from "../Structures/IPCMessage.js";
-import { ClusterManagerHooks } from "../Structures/ManagerHooks.js";
-import { PromiseHandler } from "../Structures/PromiseHandler.js";
-import { Queue } from "../Structures/Queue.js";
-import {
+import type { AutoResharderManager } from "../Plugins/AutoResharderSystem.ts";
+import type { HeartbeatManager } from "../Plugins/HeartbeatSystem.ts";
+import type { ReClusterManager } from "../Plugins/ReCluster.ts";
+import type { ChildProcessOptions } from "../Structures/Child.ts";
+import type { BaseMessage } from "../Structures/IPCMessage.ts";
+import { ClusterManagerHooks } from "../Structures/ManagerHooks.ts";
+import { PromiseHandler } from "../Structures/PromiseHandler.ts";
+import { Queue } from "../Structures/Queue.ts";
+import type {
 	Awaitable, ClusterManagerEvents, ClusterManagerOptions, ClusterManagerSpawnOptions,
 	ClusterRestartOptions, DjsDiscordClient, evalOptions, Plugin, QueueOptions, Serialized
-} from "../types/shared.js";
+} from "../types/shared.ts";
 import {
 	chunkArray, delayFor, fetchRecommendedShards, makePlainError, shardIdForGuildId
-} from "../Util/Util.js";
-import { Cluster } from "./Cluster.js";
+} from "../Util/Util.ts";
+import { Cluster } from "./Cluster.ts";
 
 export class ClusterManager extends EventEmitter {
     /**
@@ -34,12 +34,12 @@ export class ClusterManager extends EventEmitter {
     /**
      * Data, which is passed to the processEnv
      */
-    clusterData: object;
+    clusterData: Record<string, unknown>;
 
     /**
      * Options, which is passed when forking a child
      */
-    clusterOptions: ChildProcessOptions | {};
+    clusterOptions: ChildProcessOptions | Record<string, never>;
 
     /**
      * Path to the bot script file
@@ -411,7 +411,7 @@ export class ClusterManager extends EventEmitter {
                 return (
                     this.clusters
                         .get(cluster)
-                        // @ts-expect-error
+                        // @ts-expect-error - legacy compatibility
                         ?.[method](...args, undefined, timeout)
                         .then((e: any) => [e])
                 );
@@ -423,7 +423,7 @@ export class ClusterManager extends EventEmitter {
 
         const promises = [];
 
-        // @ts-expect-error
+        // @ts-expect-error - legacy compatibility
         for (const cl of clusters) promises.push(cl[method](...args, undefined, timeout));
         return Promise.all(promises);
     }
@@ -446,7 +446,7 @@ export class ClusterManager extends EventEmitter {
             const length = this.shardClusterList[i]?.length || this.totalShards / this.totalClusters;
             if (++s < this.clusters.size && clusterDelay > 0) promises.push(delayFor(length * clusterDelay));
             i++;
-            await Promise.all(promises); // eslint-disable-line no-await-in-loop
+            await Promise.all(promises);  
         }
         return this.clusters;
     }

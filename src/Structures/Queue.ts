@@ -1,5 +1,5 @@
-import { QueueOptions } from '../types/shared.js';
-import { delayFor } from '../Util/Util.js';
+import type { QueueOptions } from '../types/shared.ts';
+import { delayFor } from '../Util/Util.ts';
 
 export interface QueueItem {
     run(...args: any): Promise<any>;

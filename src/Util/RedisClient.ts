@@ -22,7 +22,7 @@ export class RedisClient {
             this.isConnected = true;
         });
 
-        this.client.on('error', (err) => {
+        this.client.on('error', (_err) => {
             this.isConnected = false;
         });
 
