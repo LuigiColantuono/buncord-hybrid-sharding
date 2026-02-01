@@ -103,6 +103,6 @@ The built-in `DashboardServer` provides a JSON API for monitoring and management
 ## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](file:///LICENSE) file for details.
-Portions of this code are based on `discord.js` and [`discord-hybrid-sharding`](https://github.com/meister03/discord-cross-hosting), copyright of their respective authors.
+Portions of this code are based on `discord.js` and [`discord-hybrid-sharding`](https://github.com/meister03/discord-hybrid-sharding), copyright of their respective authors.
 
-Developed with ❤️ by [Luigi Colantuono](https://github.com/LuigiColantuono).
+
