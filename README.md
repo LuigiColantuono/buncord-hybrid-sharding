@@ -19,7 +19,22 @@ The ultimate **Enterprise Bun-native** sharding manager for Discord bots. Built 
 - **QueueManager Plugin**: Advanced control over cluster spawning to respect Discord's rate limits precisely.
 - **Resource Efficiency**: Hybrid sharding (multiple shards per process) reduces memory overhead by 40-60%.
 
----
+
+## 📦 Bundle Size Comparison: 
+
+| Feature | `discord-hybrid-sharding` | `buncord-hybrid-sharding` | Result / Benefit |
+| :--- | :--- | :--- | :--- |
+| **Runtime** | Node.js (Legacy) | **Bun (Native)** | Faster execution |
+| **Unpacked Size** | 681 kB | **144 kB** | **~79% smaller** |
+| **Total Files** | 88 | **26** | Cleaner and more maintainable code |
+| **Process Manager** | `child_process` / `cluster` | **`Bun.spawn`** | More efficient and faster process management |
+| **Inter-Process (IPC)** | Standard Node.js IPC | **Native Bun IPC** | Reduced communication latency |
+| **Heartbeats** | Internal (Memory-based) | **Redis-Backed** | Distributed monitoring and resiliency |
+| **Restarts** | Standard restart | **Zero-Downtime Rolling** | Bot stays online during updates |
+| **Dependencies** | 0 (Node.js internal) | **0 (Bun-native)** | Instant installation and zero conflicts |
+| **Architecture** | Hybrid (n Shards / n Procs) | **Optimized Hybrid** | Optimized for Enterprise workloads |
+
+
 
 ## 📦 Installation
 
@@ -77,8 +92,6 @@ client.on('ready', () => {
 client.login('YOUR_BOT_TOKEN');
 ```
 
----
-
 ## 📈 Monitoring API
 
 The built-in `DashboardServer` provides a JSON API for monitoring and management:
@@ -87,11 +100,9 @@ The built-in `DashboardServer` provides a JSON API for monitoring and management
 - `POST /restart`: Trigger a rolling restart.
 - `POST /maintenance`: Toggle maintenance mode.
 
----
-
 ## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](file:///LICENSE) file for details.
-Portions of this code are based on `discord.js` and `discord-hybrid-sharding`, copyright of their respective authors.
+Portions of this code are based on `discord.js` and [`discord-hybrid-sharding`](https://github.com/meister03/discord-cross-hosting), copyright of their respective authors.
 
 Developed with ❤️ by [Luigi Colantuono](https://github.com/LuigiColantuono).
